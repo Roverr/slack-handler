@@ -136,6 +136,7 @@ export class Slack {
     _.assign(opts, { token: this.token });
     try {
       const response = await request(requestArg);
+
       if (_.isFunction(cb)) {
         cb(null, response);
       }
