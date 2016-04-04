@@ -134,9 +134,9 @@ export class Slack {
       requestArg.qs = options;
     }
     _.assign(opts, { token: this.token });
+    requestArg.formData = _.omitBy(requestArg.formData, _.isUndefined);
     try {
       const response = await request(requestArg);
-
       if (_.isFunction(cb)) {
         cb(null, response);
       }

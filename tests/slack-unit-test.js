@@ -4,7 +4,7 @@ import { Slack } from '../src';
 
 const chance = new Chance();
 
-describe('Slack tests', () => {
+describe('Slack unit tests', () => {
   const errorMsg = 'SlackHandler can only handle strings or array of strings.';
   describe('creating an instance from Slack', () => {
     it('should not be able to create an instance from Slack without webhooks', () => {
