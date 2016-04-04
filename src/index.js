@@ -99,14 +99,10 @@ export class Slack {
         }
         return res;
       });
-      if (_.isFunction(cb)) {
-        cb(null, responses);
-      }
+      this.callbackIfValid(cb, null, responses);
       return responses;
     } catch (e) {
-      if (_.isFunction(cb)) {
-        cb(e);
-      }
+      this.callbackIfValid(cb, e);
       throw e;
     }
   }
@@ -137,15 +133,17 @@ export class Slack {
     requestArg.formData = _.omitBy(requestArg.formData, _.isUndefined);
     try {
       const response = await request(requestArg);
-      if (_.isFunction(cb)) {
-        cb(null, response);
-      }
+      this.callbackIfValid(cb, null, response);
       return response;
     } catch (e) {
-      if (_.isFunction(cb)) {
-        cb(e);
-      }
+      this.callbackIfValid(cb, e);
       throw e;
+    }
+  }
+
+  callbackIfValid(cb, err, response) {
+    if (_.isFunction(cb)) {
+      cb(err, response); // eslint-disable-line
     }
   }
 }

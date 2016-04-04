@@ -102,40 +102,48 @@ describe('Slack integration tests', () => {
   describe('API tests', () => {
     it('should be able to get data from API', async function () {
       this.timeout(12000);
+      const spy = chai.spy((err) => expect(err).not.be.ok);
       const slack = new Slack({ webhooks: chance.url(), url: this.mockUrl });
-      const res = await slack.api('/method');
+      const res = await slack.api('/method', spy);
       expect(res).to.be.ok;
       expect(res).to.have.property('statusCode', 200);
       expect(res.body).to.have.property('property');
+      expect(spy).to.have.been.called;
     });
 
     it('should be able to get data from API with query as well', async function () {
       this.timeout(12000);
+      const spy = chai.spy((err) => expect(err).not.be.ok);
       const slack = new Slack({ webhooks: chance.url(), url: this.mockUrl });
-      const res = await slack.api('/method', { query: chance.integer() });
+      const res = await slack.api('/method', { query: chance.integer() }, spy);
       expect(res).to.be.ok;
       expect(res).to.have.property('statusCode', 200);
       expect(res.body).to.have.property('query');
+      expect(spy).to.have.been.called;
     });
 
     it('should be able to post data to API', async function () {
       this.timeout(12000);
+      const spy = chai.spy((err) => expect(err).not.be.ok);
       const slack = new Slack({ webhooks: chance.url(), url: this.mockUrl + '/', token: chance.string() });
-      const res = await slack.api('files.upload', { query: chance.integer() });
+      const res = await slack.api('files.upload', { query: chance.integer() }, spy);
       expect(res).to.be.ok;
       expect(res).to.have.property('statusCode', 200);
       expect(res.body).to.have.property('query');
       expect(res.body).to.have.property('token');
+      expect(spy).to.have.been.called;
     });
 
     it('should not be able to send undefined property', async function () {
       this.timeout(12000);
+      const spy = chai.spy((err) => expect(err).not.be.ok);
       const slack = new Slack({ webhooks: chance.url(), url: this.mockUrl + '/' });
-      const res = await slack.api('files.upload', { query: chance.integer() });
+      const res = await slack.api('files.upload', { query: chance.integer() }, spy);
       expect(res).to.be.ok;
       expect(res).to.have.property('statusCode', 200);
       expect(res.body).to.have.property('query');
       expect(res.body).not.to.have.property('token');
+      expect(spy).to.have.been.called;
     });
   });
 });
