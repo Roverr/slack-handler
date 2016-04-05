@@ -37,7 +37,7 @@ You can pass options object to the constructor with the following properties:
 
 ### Adding webhooks
 You can give your webhooks in the constructor:
-```
+```{js}
 const Slack = require('slack-handler');
 const webhook = process.env.MY_WEBHOOK;
 
@@ -49,7 +49,7 @@ const slack = new Slack({
 });
 ```
 Or you can add your potential webhooks after you created an instance from slack-handler, like this:
-```
+```{js}
 const Slack = require('slack-handler');
 const slack = new Slack();
 
@@ -67,7 +67,7 @@ slack.addWebhooks(myWebhooks);
 
 ### Removing webhooks
 If there is an opporunity to add webhooks, there should be an opportunity to remove them:
-```
+```{js}
 const Slack = require('slack-handler');
 const webhook1 = process.env.MY_WEBHOOK_1;
 const webhook2 = process.env.MY_WEBHOOK_2;
@@ -81,7 +81,7 @@ slack.removeWebhooks(webhook2);
 
 ### Setting webhooks
 This method is where you can completely just set your webhooks. Let's say you have something in your slack-handler, but you do not want to remove them one by one and add your new webhooks array, than this is your function:
-```
+```{js}
 const myNewArrayOfWebhooks = ['webhook1', 'webhook2'];
 slack.setWebhooks(myNewArrayOfWebhooks);
 
@@ -91,7 +91,7 @@ slack.setWebhooks(myNewArrayOfWebhooks);
 
 ## Sending messages to webhooks
 First, you need valid webhooks. If one of your webhook is not valid or not getting any response from it, you are going to get an error. So you always want to make a catch at the end of your promise chain or handle error first callbacks:
-```
+```{js}
 const Slack = require('slack-handler');
 const webhook = process.env.MY_WEBHOOK;
 const slack = new Slack({ webhooks: webhook });
@@ -137,7 +137,7 @@ Some of the API requests can be done only with valid token, so you should be pre
 
 
 Instance of slack-handler has an api method, which can be used like this:
-```
+```{js}
 const Slack = require('slack-handler');
 const API_TOKEN = process.env.MY_SLACK_API_TOKEN;
 const slack = new Slack({ token: API_TOKEN });
