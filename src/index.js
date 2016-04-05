@@ -6,24 +6,21 @@ import { validateWebhooks } from './validate';
 export class Slack {
   constructor({
     token,
-    domain,
     timeout = 10 * 1000,
     maxAttempts = 3,
     webhooks,
-    logging = false,
     url = 'https://slack.com/api/',
   } = {}) {
     this.token = token;
-    this.domain = domain;
     this.DEFAULT_TIMEOUT = timeout;
     this.DEFAULT_MAX_ATTEMPTS = maxAttempts;
-    if (validateWebhooks(webhooks)) {
+    this.webhooks = [];
+    if (webhooks && validateWebhooks(webhooks)) {
       this.webhooks = _.cloneDeep(webhooks);
     }
-    if (!_.isArray(webhooks) && _.isString(webhooks)) {
+    if (webhooks && !_.isArray(webhooks) && _.isString(webhooks)) {
       this.webhooks = [_.cloneDeep(webhooks)];
     }
-    this.logging = logging;
     this.url = url;
   }
 
@@ -70,14 +67,13 @@ export class Slack {
   }
 
   async webhook(options, cb) {
-    const emoji = this.detectEmoji(options.icon_emoji);
+    const emoji = this.detectEmoji(options.iconEmoji);
     const payload = {
       response_type: options.response_type || 'ephemeral',
-      channel: options.channel,
-      text: options.text,
-      username: options.username,
+      channel: options.channel || '#general',
+      text: options.text || '',
+      username: options.userName,
       attachments: options.attachments,
-      link_names: options.link_names || 0,
     };
     payload[emoji.key] = emoji.val;
     const responsePromises = _.map(this.webhooks, (webhook) => {

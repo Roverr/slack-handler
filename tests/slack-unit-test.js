@@ -7,13 +7,9 @@ const chance = new Chance();
 describe('Slack unit tests', () => {
   const errorMsg = 'SlackHandler can only handle strings or array of strings.';
   describe('creating an instance from Slack', () => {
-    it('should not be able to create an instance from Slack without webhooks', () => {
-      try {
-        const slack = new Slack();
-        expect(slack).not.to.be.ok;
-      } catch (e) {
-        expect(e.message).to.include(errorMsg);
-      }
+    it('should be able to create an instance from Slack without webhooks', () => {
+      const slack = new Slack();
+      expect(slack).to.be.ok;
     });
 
     it('should not be able to create instance from Slack with incorrect type of webhooks', () => {
@@ -120,6 +116,17 @@ describe('Slack unit tests', () => {
       expect(slack.webhooks).not.to.include(secondUrl);
     });
 
+    it('should be able to chain removeWebhooks method', () => {
+      const firstUrl = chance.url();
+      const secondUrl = chance.url();
+      const slack = new Slack({ webhooks: [firstUrl, secondUrl] });
+      expect(slack.webhooks).to.include(firstUrl);
+      expect(slack.webhooks).to.include(secondUrl);
+      slack.removeWebhooks(firstUrl).removeWebhooks(secondUrl);
+      expect(slack.webhooks).not.to.include(firstUrl);
+      expect(slack.webhooks).not.to.include(secondUrl);
+    });
+
     it('should be able to remove array of urls even if there is a non valid one in it', () => {
       const url = chance.url();
       const slack = new Slack({ webhooks: url });
@@ -181,6 +188,26 @@ describe('Slack unit tests', () => {
       expect(slack.webhooks).not.to.include(firstUrl);
       expect(slack.webhooks).to.include(secondUrl);
       expect(slack.webhooks).to.include(thirdUrl);
+    });
+  });
+
+  describe('chaining webhook methods', () => {
+    it('should be able to chain every multiple webhook related method', () => {
+      const slack = new Slack({});
+      expect(slack.webhooks).to.be.empty;
+      const firstUrl = chance.url();
+      const secondUrl = chance.url();
+      slack.addWebhooks(firstUrl).removeWebhooks(firstUrl);
+      expect(slack.webhooks).to.be.empty;
+      slack.addWebhooks(firstUrl).setWebhooks(secondUrl);
+      expect(slack.webhooks).not.to.include(firstUrl);
+      expect(slack.webhooks).to.include(secondUrl);
+      slack.setWebhooks([firstUrl, secondUrl]).removeWebhooks(firstUrl);
+      expect(slack.webhooks).to.include(secondUrl);
+      expect(slack.webhooks).not.to.include(firstUrl);
+      slack.setWebhooks(firstUrl).setWebhooks(secondUrl);
+      expect(slack.webhooks).to.include(secondUrl);
+      expect(slack.webhooks).not.to.include(firstUrl);
     });
   });
 });

@@ -44,7 +44,7 @@ describe('Slack integration tests', () => {
       const webhookOptions = {
         channel: chance.word(),
         text: chance.sentence(),
-        username: chance.word(),
+        userName: chance.word(),
       };
       const spy = chai.spy(() => {});
       const [res] = await slack.webhook(webhookOptions, spy);
@@ -52,7 +52,7 @@ describe('Slack integration tests', () => {
       expect(spy).to.have.been.called;
       expect(body).to.have.property('channel', webhookOptions.channel);
       expect(body).to.have.property('text', webhookOptions.text);
-      expect(body).to.have.property('username', webhookOptions.username);
+      expect(body).to.have.property('username', webhookOptions.userName);
     });
 
     it('should be able to push messages to multiple webhooks', async function () {
@@ -61,7 +61,7 @@ describe('Slack integration tests', () => {
       const webhookOptions = {
         channel: chance.word(),
         text: chance.sentence(),
-        username: chance.word(),
+        userName: chance.word(),
       };
       const spy = chai.spy((err, arrayOfResponses) => {
         expect(err).not.to.be.ok;
@@ -73,10 +73,10 @@ describe('Slack integration tests', () => {
       expect(spy).to.have.been.called;
       expect(firstBody).to.have.property('channel', webhookOptions.channel);
       expect(firstBody).to.have.property('text', webhookOptions.text);
-      expect(firstBody).to.have.property('username', webhookOptions.username);
+      expect(firstBody).to.have.property('username', webhookOptions.userName);
       expect(secondBody).to.have.property('channel', webhookOptions.channel);
       expect(secondBody).to.have.property('text', webhookOptions.text);
-      expect(secondBody).to.have.property('username', webhookOptions.username);
+      expect(secondBody).to.have.property('username', webhookOptions.userName);
     });
 
     it('should throw error if one of the webhooks is invalid', async function () {
@@ -85,7 +85,7 @@ describe('Slack integration tests', () => {
       const webhookOptions = {
         channel: chance.word(),
         text: chance.sentence(),
-        username: chance.word(),
+        userName: chance.word(),
       };
       const spy = chai.spy((err) => expect(err).to.have.property('message'));
       try {
