@@ -203,4 +203,4 @@ Also __pull requests are welcomed.__
 
 # Coming soon features
 
-I have nothing in my mind yet, but ideas are welcomed as well.
+I have nothing serious in my mind yet, but ideas are welcomed as well.

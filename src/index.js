@@ -29,7 +29,7 @@ export class Slack {
 
   /**
    * Adding webhooks to the current webhook storage
-   * @param {String} webhooks Webhook URL or
+   * @param {String | String[]} webhooks Webhook URL or
    * URLs which should be added to the current storage.
    * @return {Object} Returns the instance from the class.
    */
@@ -46,12 +46,28 @@ export class Slack {
     }
   }
 
+  /**
+   * Delete all the stored webhooks and
+   * set totally new ones which are given
+   * as a parameter to the function
+   * @param {String | String[]} webhooks String or Array of strings
+   * which are going to be stored.
+   * @return {Object} Returns the instance from the class.
+   */
   setWebhooks(webhooks) {
     this.webhooks = [];
     this.addWebhooks(webhooks);
     return this;
   }
 
+  /**
+   * Removing the given webhooks from
+   * the stored ones, if they are stored.
+   * @param  {String | String[]} webhooks webhooks
+   * which should be removed.
+   * @return {Object}  Returns the instance
+   * from the class.
+   */
   removeWebhooks(webhooks) {
     if (_.isArray(webhooks)) {
       _.forEach(webhooks, (webhook) => {
@@ -63,6 +79,13 @@ export class Slack {
     return this;
   }
 
+  /**
+   * Detecting if the given emoji is an url
+   * or an existing emoji in the slack system.
+   * @param  {String} emoji URL or emoji strings
+   * @return {Object} Returns an object which has a
+   * key and a value based on the given parameters.
+   */
   detectEmoji(emoji) {
     const obj = {
       key: 'icon_emoji',
@@ -75,6 +98,14 @@ export class Slack {
     return obj;
   }
 
+  /**
+   * Async function which is sending messages
+   * to the stored webhooks one by one.
+   * @param  {Object}   options Option object.
+   * @param  {Function} cb      Possible callback function.
+   * @return {Promise<Object[]>}  Returns array of responses
+   * from the stored webhooks.
+   */
   async webhook(options, cb) {
     const emoji = this.detectEmoji(options.iconEmoji);
     const payload = {
@@ -112,6 +143,18 @@ export class Slack {
     }
   }
 
+  /**
+   * Async function which can communicate with the API
+   * of the slack.
+   * @param  {String}   method   Method which is called.
+   * @param  {Object}   options = {} Possible options object which
+   * can be a callback function as well, and defined as an empty
+   * object if nothing is given in the parameter.
+   * @param  {Function} callback Callback if there is an options
+   * and the user would like to use callback.
+   * @return {Promise<Object>} Returns a promise about the result
+   * of the API request.
+   */
   async api(method, options = {}, callback) {
     const opts = options;
     let cb = callback;
@@ -146,6 +189,14 @@ export class Slack {
     }
   }
 
+  /**
+   * Function which is handling callbacks if
+   * they are avaliable.
+   * @param  {Function} cb       Optional callback functionality
+   * @param  {Object}   err      Error object.
+   * @param  {Object}   response Response object.
+   * @return {void} Returns nothing.
+   */
   callbackIfValid(cb, err, response) {
     if (_.isFunction(cb)) {
       cb(err, response); // eslint-disable-line
