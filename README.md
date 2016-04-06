@@ -12,7 +12,7 @@ The differences:
 
 
 ## Why?
-In my previous project, I had to use a Slack messaging service which happened to be the [original version](https://github.com/clonn/slack-node-sdk) of the repository. Although It worked great, I really missed the feature of being able to handle multiple webhooks. The solution for this problem was that I implemented it in my code, but I kinda felt like this would be a good feature in the existing package.
+In my previous project, I had to use a Slack messaging service which happened to be the [original version](https://github.com/clonn/slack-node-sdk) of the repository. Although It worked great, I really missed the feature of being able to handle multiple webhooks. The solution for this problem was that I implemented it in my code, but I kind of felt like this would be a good feature in the existing package.
 
 # How to use
 ## Handling multiple webhooks
@@ -26,7 +26,7 @@ const slack = new Slack({ token: API_TOKEN });
 You can pass options object to the constructor with the following properties:
 * __token__ - String - should be your API token, if you would like to make API calls.
 
-* __timeout__ - Number - tracked in milliseconds, indicates how many the timeout should be, before retrying your failed requests. __Default:   10 * 1000 ms  = 10 s__
+* __timeout__ - Number - tracked in milliseconds, how much time the timeout lasts, before retrying your failed requests. __Default:   10 * 1000 ms  = 10 s__
 
 * __maxAttempts__ - Number - indicates how many attempts should be made, before give up on a failed request. __Default: 3__
 
@@ -36,7 +36,7 @@ You can pass options object to the constructor with the following properties:
 
 
 ### Adding webhooks
-You can give your webhooks in the constructor:
+You can add your webhooks in the constructor:
 ```{js}
 const Slack = require('slack-handler');
 const webhook = process.env.MY_WEBHOOK;
@@ -90,7 +90,7 @@ slack.setWebhooks(myNewArrayOfWebhooks);
 ```
 
 ## Sending messages to webhooks
-First, you need valid webhooks. If one of your webhook is not valid or not getting any response from it, you are going to get an error. So you always want to make a catch at the end of your promise chain or handle error first callbacks:
+First, you need valid webhooks. If one of your webhook is not valid or you are not getting any response from it, you are going to get an error. So you always want to make a catch at the end of your promise chain or handle error first callbacks:
 ```{js}
 const Slack = require('slack-handler');
 const webhook = process.env.MY_WEBHOOK;
@@ -120,9 +120,9 @@ slack.webhook(messageOptions, (err, responses) => {
 });
 ```
 Most of the properties in the options can be found on the website of Slack, so if you need more information about them, I suggest you visiting Slack's website first. In the options you can define:
-* __response_type__ - String - This is probably not need to be set by you, but here you can [read more](https://api.slack.com/slash-commands). __Default: ephemeral__
+* __response_type__ - String - This is probably do not need to be set by you, but here you can [read more](https://api.slack.com/slash-commands). __Default: ephemeral__
 
-* __channel__ - String - Should be something like #general, this is going to be the name of the channel where your message will be sent. __Default: '#general'__
+* __channel__ - String - Should be something like #general, this is going to be the name of the channel where your message will be sent to. __Default: '#general'__
 
 * __text__ - String - Your message's text. __Default: '' (empty String)__
 
@@ -133,10 +133,10 @@ Most of the properties in the options can be found on the website of Slack, so i
 * __iconEmoji__ - String - This should be an existing emoji or a link to an image. __Default: '' (empty String)__
 
 ## API requests
-Some of the API requests can be done only with valid token, so you should be prepared for it. [Read more about methods of Slack API.](https://api.slack.com/methods)
+Some of the API requests can only be done with valid token, so you should be prepared for it. [Read more about methods of Slack API.](https://api.slack.com/methods)
 
 
-Instance of slack-handler has an api method, which can be used like this:
+Instances of slack-handler have an api method, which can be used like this:
 ```{js}
 const Slack = require('slack-handler');
 const API_TOKEN = process.env.MY_SLACK_API_TOKEN;
@@ -172,10 +172,16 @@ slack.api('api.test', options, (err, response) => {
   // Handle response here.
 });
 ```
-If you would like to use a callback, you should be aware the fact, that if you provide an options object, the callback will be the third parameter of the function, but if you do not provide one, it will be the second parameter, so you do not have to give the function an undefined, or null.
+If you would like to use a callback, you should be aware that providing and options object, the callback will be the third parameter of the function.
+However if you do not provide one, it will be the second parameter, so you __do not have to use__ like this:
+
+```{js}
+// WRONG!!!!
+slack.api('api.test', undefined, (err, response) => {});
+```
 
 If you would like to __upload files__, your options object will be your form data, which is going to be sent to the Slack API.
-Otherwise options can include any property, but it is going to be used as a query parameter.
+Otherwise options can include any property, but they are going to be used as a query parameter.
 For example you create an options object like this:
 ```{js}
 const options = { json: true };
@@ -197,7 +203,7 @@ __URL__ : https://slack.com/api/api.test?json=true
 
 # Issues
 
-If you would like to report an issues, you can do it at the repository of the project. I will try to help as soon as I can.
+If you would like to report any issues, you can do it at the repository of the project. I will try to help as soon as I can.
 
 Also __pull requests are welcomed.__
 
