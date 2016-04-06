@@ -18,7 +18,7 @@ In my previous project, I had to use a Slack messaging service which happened to
 ## Handling multiple webhooks
 ### Creating instance
 For creating an instance, you do not need anything.
-```
+```{js}
 const Slack = require('slack-handler');
 const API_TOKEN = process.env.YOUR_API_TOKEN;
 const slack = new Slack({ token: API_TOKEN });
@@ -37,7 +37,7 @@ You can pass options object to the constructor with the following properties:
 
 ### Adding webhooks
 You can give your webhooks in the constructor:
-```
+```{js}
 const Slack = require('slack-handler');
 const webhook = process.env.MY_WEBHOOK;
 
@@ -49,7 +49,7 @@ const slack = new Slack({
 });
 ```
 Or you can add your potential webhooks after you created an instance from slack-handler, like this:
-```
+```{js}
 const Slack = require('slack-handler');
 const slack = new Slack();
 
@@ -67,7 +67,7 @@ slack.addWebhooks(myWebhooks);
 
 ### Removing webhooks
 If there is an opporunity to add webhooks, there should be an opportunity to remove them:
-```
+```{js}
 const Slack = require('slack-handler');
 const webhook1 = process.env.MY_WEBHOOK_1;
 const webhook2 = process.env.MY_WEBHOOK_2;
@@ -81,7 +81,7 @@ slack.removeWebhooks(webhook2);
 
 ### Setting webhooks
 This method is where you can completely just set your webhooks. Let's say you have something in your slack-handler, but you do not want to remove them one by one and add your new webhooks array, than this is your function:
-```
+```{js}
 const myNewArrayOfWebhooks = ['webhook1', 'webhook2'];
 slack.setWebhooks(myNewArrayOfWebhooks);
 
@@ -91,7 +91,7 @@ slack.setWebhooks(myNewArrayOfWebhooks);
 
 ## Sending messages to webhooks
 First, you need valid webhooks. If one of your webhook is not valid or not getting any response from it, you are going to get an error. So you always want to make a catch at the end of your promise chain or handle error first callbacks:
-```
+```{js}
 const Slack = require('slack-handler');
 const webhook = process.env.MY_WEBHOOK;
 const slack = new Slack({ webhooks: webhook });
@@ -137,7 +137,7 @@ Some of the API requests can be done only with valid token, so you should be pre
 
 
 Instance of slack-handler has an api method, which can be used like this:
-```
+```{js}
 const Slack = require('slack-handler');
 const API_TOKEN = process.env.MY_SLACK_API_TOKEN;
 const slack = new Slack({ token: API_TOKEN });
@@ -153,3 +153,54 @@ slack.api('api.test', (err, response) => {
   // Handle response here.
 });
 ```
+There is an options object, which can be given to the function like this:
+```{js}
+const Slack = require('slack-handler');
+const API_TOKEN = process.env.MY_SLACK_API_TOKEN;
+const slack = new Slack({ token: API_TOKEN });
+
+const options = { json: true };
+
+// With Promise
+slack.api('api.test', options).then((response) => {
+  // Notice here,
+  // that response is not going to be an array
+});
+
+// With Callback
+slack.api('api.test', options, (err, response) => {
+  // Handle response here.
+});
+```
+If you would like to use a callback, you should be aware the fact, that if you provide an options object, the callback will be the third parameter of the function, but if you do not provide one, it will be the second parameter, so you do not have to give the function an undefined, or null.
+
+If you would like to __upload files__, your options object will be your form data, which is going to be sent to the Slack API.
+Otherwise options can include any property, but it is going to be used as a query parameter.
+For example you create an options object like this:
+```{js}
+const options = { json: true };
+slack.api('api.test', options);
+```
+This will going to be a request like this:
+
+__METHOD__ : GET
+
+__URL__ : https://slack.com/api/api.test?json=true
+
+## Run tests
+
+* Clone the repository
+* Checkout the branch you want to test (default: master)
+* nvm use 4.4 (except if you do not have nvm or 4.4. than first install them first)
+* npm install
+* npm test
+
+# Issues
+
+If you would like to report an issues, you can do it at the repository of the project. I will try to help as soon as I can.
+
+Also __pull requests are welcomed.__
+
+# Coming soon features
+
+I have nothing in my mind yet, but ideas are welcomed as well.

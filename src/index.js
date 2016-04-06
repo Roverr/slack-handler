@@ -3,6 +3,9 @@ import request from 'requestretry';
 
 import { validateWebhooks } from './validate';
 
+/**
+ * Slack class which will handle the slack requests
+ */
 export class Slack {
   constructor({
     token,
@@ -24,6 +27,12 @@ export class Slack {
     this.url = url;
   }
 
+  /**
+   * Adding webhooks to the current webhook storage
+   * @param {String} webhooks Webhook URL or
+   * URLs which should be added to the current storage.
+   * @return {Object} Returns the instance from the class.
+   */
   addWebhooks(webhooks) {
     validateWebhooks(webhooks);
     if (_.isArray(webhooks)) {
