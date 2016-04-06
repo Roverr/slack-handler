@@ -1,6 +1,6 @@
 import Chance from 'chance';
 import { expect } from 'chai';
-import { Slack } from '../src';
+import { Slack } from '../src/slack';
 
 const chance = new Chance();
 

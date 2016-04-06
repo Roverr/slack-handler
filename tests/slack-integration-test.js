@@ -5,7 +5,7 @@ import spies from 'chai-spies';
 
 chai.use(spies);
 
-import { Slack } from '../src';
+import { Slack } from '../src/slack';
 
 const expect = chai.expect;
 const chance = new Chance();

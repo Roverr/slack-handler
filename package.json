@@ -2,7 +2,8 @@
   "name": "slack-handler",
   "version": "1.0.0",
   "description": "This is a slack message service inspired by slack-node.",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "engines": { "node": ">=4.2.0" },
   "config": {
     "MOCHA_OPTS": "--require babel-polyfill --compilers js:babel-core/register --env test"
   },
