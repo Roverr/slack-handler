@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "extends": ["codingsans/babel"],
+  "parser": "babel-eslint"
+}
