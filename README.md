@@ -197,7 +197,7 @@ __URL__ : https://slack.com/api/api.test?json=true
 
 * Clone the repository
 * Checkout the branch you want to test (default: master)
-* nvm use 4.4 (except if you do not have nvm or 4.4. than first install them first)
+* nvm use 4.4 (except if you do not have nvm or 4.4. than install them first)
 * npm install
 * npm test
 
