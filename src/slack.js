@@ -120,7 +120,7 @@ export class Slack {
       return request({
         method: 'POST',
         url: webhook,
-        body: JSON.stringify(payload),
+        body: payload,
         timeout: this.timeout,
         maxAttempts: this.maxAttempts,
         retryDelay: 0,
@@ -130,8 +130,9 @@ export class Slack {
     try {
       let responses = await Promise.all(responsePromises);
       responses = _.map(responses, (res) => {
-        if (_.isString(res.body)) {
-          res.body = JSON.parse(res.body);
+        const parsedRes = _.attempt(() => JSON.parse(res.body));
+        if (!_.isError(parsedRes)) {
+          res.body = parsedRes;
         }
         return res;
       });

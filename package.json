@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "This is a slack message service inspired by slack-node.",
   "main": "./lib/index.js",
-  "engines": { "node": ">=4.2.0" },
+  "engines": {
+    "node": ">=4.2.0"
+  },
   "config": {
     "MOCHA_OPTS": "--require babel-polyfill --compilers js:babel-core/register --env test"
   },
@@ -33,12 +35,15 @@
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
     "chance": "^1.0.1",
+    "convict": "^1.2.0",
+    "dotenv": "^2.0.0",
     "eslint": "^1.10.3",
     "eslint-config-codingsans": "^1.2.0",
     "mocha": "^2.4.5",
     "restify": "^4.0.4",
     "rimraf": "^2.5.2",
     "supertest": "^1.2.0",
-    "supertest-as-promised": "^3.1.0"
+    "supertest-as-promised": "^3.1.0",
+    "winston": "^2.2.0"
   }
 }
