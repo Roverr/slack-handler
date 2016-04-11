@@ -25,7 +25,13 @@ const msgOpts = {
 
 slack.webhook(msgOpts).then(() => {
   winston.info('First webhook example was successful.');
+  return slack.api('api.test');
+}).then((res) => {
+  if (res.body.ok) {
+    return winston.info('Api example was successful.');
+  }
+  return winston.debug('Something went wrong with the example, no ok in body.');
 }).catch((error) => {
-  winston.error('First webhook example went wrong.');
+  winston.error('Something went wrong with the example.');
   winston.error(error.stack);
 });
