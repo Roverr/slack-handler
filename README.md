@@ -1,5 +1,6 @@
 # Another Slack messaging service
 [ ![Codeship Status for Roverr/slack-handler](https://codeship.com/projects/d28f6580-db21-0133-0e50-561c728b2028/status?branch=master)](https://codeship.com/projects/143896)
+[ ![Codacy Badge](https://api.codacy.com/project/badge/grade/7e1a46a35bb147a28140ee8469ce8c8e)](https://www.codacy.com/app/rover/slack-handler)
 
 Service made for sending messages to webhooks, and handling API
 requests towards slack. This service is mostly a "fork" version of
